@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <script>
+      AFRAME.registerComponent('channel-link', {
+        init: function() {
+          const url = 'https://www.youtube.com/@Warabimochi_imaiki';
+          this.el.addEventListener('click', () => {
+            window.open(url, '_blank');
+          });
+        }
+      });
+    </script>
+  </head>
+  
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" cursor="rayOrigin: mouse">
+      
+      <a-assets>
+        <video id="meishi-video" src="video.mp4" preload="auto" loop="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+        <img id="icon-img" src="icon.png">
+      </a-assets>
+
+      <a-marker type="pattern" url="pattern-marker.patt">
+        <a-video src="#meishi-video" width="1.6" height="0.9" rotation="-90 0 0"></a-video>
+        
+        <a-image src="#icon-img" position="1.2 0 0" rotation="-90 0 0" width="0.5" height="0.5" class="clickable" channel-link></a-image>
+      
+        <a-text value="Recommand Videos" position="0 0 0.6" rotation="-90 0 0" align="center" color="#000000" width="3"></a-text>
+      </a-marker>
+
+
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      // 画面クリックで動画を再生
+      window.addEventListener('click', function () {
+        var v = document.querySelector('#meishi-video');
+        if (v) v.play();
+      });
+    </script>
+  </body>
+</html>
